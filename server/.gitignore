@@ -1,0 +1,9 @@
+/player/node_modules
+
+/gateway/node_modules
+
+/game/node_modules
+
+/player/.env.dev
+
+/game/.env.dev
