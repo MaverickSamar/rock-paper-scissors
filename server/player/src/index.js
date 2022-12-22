@@ -15,10 +15,9 @@ const startServer = async() => {
         return res.status(200).json({"msg": "Hello from Player"});
     })
 
-    // const channel = await CreateChannel();
+    const channel = await CreateChannel();
 
-    // await expressApp(app, channel);
-    const PORT = 8001 || process.env.PORT;
+    await expressApp(app, channel);
     app.listen(PORT, () => {
         console.log(`listening to port ${PORT}`);
     }).on('error', (err) => {

@@ -6,6 +6,7 @@ const {
   APP_SECRET,
   EXCHANGE_NAME,
   MSG_QUEUE_URL,
+  PLAYER_SERVICE,
 } = require("../config");
 
 //Utility functions
@@ -77,7 +78,7 @@ module.exports.SubscribeMessage = async (channel, service) => {
   const q = await channel.assertQueue("", { exclusive: true });
   console.log(` Waiting for messages in queue: ${q.queue}`);
 
-  channel.bindQueue(q.queue, EXCHANGE_NAME, CUSTOMER_SERVICE);
+  channel.bindQueue(q.queue, EXCHANGE_NAME, PLAYER_SERVICE);
 
   channel.consume(
     q.queue,

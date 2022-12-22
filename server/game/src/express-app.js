@@ -16,7 +16,7 @@ module.exports = async (app) => {
   // appEvents(app);
 
   const channel = await CreateChannel();
-  products(app, channel);
+  game(app, channel);
 
   // error handling
 };
