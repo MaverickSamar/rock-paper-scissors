@@ -1,6 +1,6 @@
 # Rock Paper Scissors ReactJS
 
-Basic rock, paper and scissors game competing with the computer. 
+Basic rock, paper and scissors game competing with the computer by Samarth Ranjan
 
 ## To run the client
 
