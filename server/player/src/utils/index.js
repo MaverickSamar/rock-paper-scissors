@@ -29,6 +29,7 @@ module.exports.ValidatePassword = async (
 
 (module.exports.GenerateSignature = async (payload) => 
 {
+  console.log(payload, "Util");
   return await jwt.sign(payload, APP_SECRET, { expiresIn: "1d" });
 }),
 (module.exports.ValidateSignature = async (req) => 

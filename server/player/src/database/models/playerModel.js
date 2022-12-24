@@ -6,13 +6,6 @@ const playerSchema = new Schema({
     username: String,
     password: String,
     salt: String,
-    stats: [
-        {
-            totalWins: {type: Number},
-            totalLoss: {type: Number},
-            winPercentage: {type: Number},
-        }
-    ],
 },
 {
     toJSON: {

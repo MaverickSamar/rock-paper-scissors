@@ -8,9 +8,8 @@ class PlayerRepository
     {
         const player = new playerModel({
             username,
-            player,
+            password,
             salt,
-            stats: [],
         })
 
         const playerResult = await player.save();
@@ -18,19 +17,15 @@ class PlayerRepository
     }
     
     async findPlayer({ username }){
-        const existingCustomer = await playerModel.findOne({ username: username });
-        return existingCustomer;
+        const existingPlayer = await playerModel.findOne({ username: username });
+        return existingPlayer;
     }
     
     async findPlayerById({ id }){
     
         const existingPlayer = await playerModel.findById(id).populate('player');
-        // existingCustomer.cart = [];
-        // existingCustomer.orders = [];
-        // existingCustomer.wishlist = [];
     
-        // await existingCustomer.save();
-        return existingCustomer;
+        return existingPlayer;
     }
     
     // async createStats(playerId, { _id, wins, loss, percentage}){

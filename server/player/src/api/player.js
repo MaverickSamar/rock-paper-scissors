@@ -11,11 +11,12 @@ module.exports = (app, channel) => {
     SubscribeMessage(channel, service);
 
 
-    app.post('/signup', async (req,res,next) => {
+    app.post('/register', async (req,res,next) => {
         const { username, password } = req.body;
+        console.log(username, "Server");
+        console.log(password, "Server")
         const { data } = await service.signUp({ username, password }); 
         res.json(data);
-
     });
 
     app.post('/login',  async (req,res,next) => {

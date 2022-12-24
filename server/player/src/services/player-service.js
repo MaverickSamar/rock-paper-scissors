@@ -34,6 +34,7 @@ class PlayerService{
 
         const existingPlayer = await this.repository.createPlayer({ username, password: userPassword, salt});
 
+        console.log(username, "service");
         const token = await GenerateSignature({ username: username, _id: existingPlayer._id});
 
         return FormateData({id: existingPlayer._id, token});

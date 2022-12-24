@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
-import styled from 'styled-components';
-import { FormButton } from './Button';
-import Button from './Button';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { FormButton } from "./Button";
+import Button from "./Button";
 
 const FormStyled = styled.div`
   text-align: center;
   &::before {
-    content: '';
-    display: ${({ visible }) => visible ? 'block' : 'none'};
+    content: "";
+    display: ${({ visible }) => (visible ? "block" : "none")};
     position: absolute;
     z-index: 2;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
-    background: rgba(0,0,0,.6);
+    background: rgba(0, 0, 0, 0.6);
   }
   .close-button {
     margin-top: 2em;
@@ -29,7 +29,6 @@ const FormStyled = styled.div`
       cursor: pointer;
       color: #ff6200;
     }
-
   }
   .rules-modal {
     background: white;
@@ -44,23 +43,22 @@ const FormStyled = styled.div`
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    input{
-      height:30px;
-      font-size:14pt;
+    input {
+      height: 30px;
+      font-size: 14pt;
     }
     h2 {
-      color: #3B4262;
+      color: #3b4262;
       text-transform: uppercase;
       font-weight: 700;
       letter-spacing: -2px;
       margin-bottom: 1em;
     }
-    .form-button{
+    .form-button {
       position: fixed;
-      right: 10px; 
+      right: 10px;
       bottom: 10px;
-      font-size: 12px
-      
+      font-size: 12px;
     }
   }
   @media screen and (min-width: 768px) {
@@ -87,77 +85,175 @@ const FormStyled = styled.div`
     .close-button {
       position: absolute;
       right: 2em;
-      top: .8em;
+      top: 0.8em;
     }
   }
-`
+`;
 
 const Form = () => {
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
-  const [visible, setVisible] = useState(true)
-
-  const [user, setUser] = useState("Guest");
-  const [uvisible, setUvisible] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [usernameVisible, setUsernameVisible] = useState(false);
+  const [loginVisible, setLoginVisible] = useState(false);
 
   function handleToggleClick() {
-    setVisible(!visible)
+    setVisible(!visible);
   }
 
-  function handleGuestClick(){
-    setUvisible(!uvisible); 
-    setVisible(!visible);     
+  function handleGuestClick() {
+    setUsernameVisible(!usernameVisible);
+    setVisible(!visible);
+    setUsername("Guest");
+    console.log(username);
   }
 
+  function handleSignUp(e) {
+    e.preventDefault();
 
-  function handleSignUp(){
-
+    fetch("http://localhost:8001/register", {
+      method: "POST",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, "User Registered");
+      });
+    setVisible(!visible);
   }
 
   function handleSwitch() {
-
+    setLoginVisible(!loginVisible);
   }
 
-  function handleLogIn(){
-
+  function handleLogin() {
+    
+    console.log("Function entered");
+    fetch("http://localhost:8001/login", {
+      method: "POST",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUsername(data.username);
+        console.log(data, "User logged in");
+      });
+    setVisible(!visible);
   }
 
   return (
     <div>
       <FormStyled visible={visible}>
-      {
-        (visible) && (
+        {visible && (
           <div className="rules-modal">
-            <h2>SignUp</h2>
-              <form>
-                <input type="text" title="username" placeholder="Username" size={25}/>
-                <br/>
-                <br/>
-                <input type="password" title="username" placeholder="Password" size={25}/>
-                <br/>
-                <br/>
-                <FormButton onClick={handleSignUp} className="sign">
-                  SignUp
-                </FormButton>
-                <br/>
-                <br/>
-                <a class="login" href="#" onClick={handleSwitch}>Already a player? Login</a>
-              </form>
-              <br/>
-              <br/>
+            {!loginVisible ? (
+              <div>
+                <h2>SignUp</h2>
+                <form>
+                  <input
+                    type="text"
+                    title="username"
+                    placeholder="Username"
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                    }}
+                    size={25}
+                  />
+                  <br />
+                  <br />
+                  <input
+                    type="password"
+                    title="username"
+                    placeholder="Password"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    size={25}
+                  />
+                  <br />
+                  <br />
+                  <FormButton onClick={handleSignUp} className="sign">
+                    SignUp
+                  </FormButton>
+                  <br />
+                  <br />
+                  <a class="login" onClick={handleSwitch}>
+                    Already a player? Login
+                  </a>
+                </form>
+                <br />
+                <br />
+              </div>
+            ) : (
+              <div>
+                <h2>Login</h2>
+                <form>
+                  <input
+                    type="text"
+                    title="username"
+                    placeholder="Username"
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                    }}
+                    size={25}
+                  />
+                  <br />
+                  <br />
+                  <input
+                    type="password"
+                    title="username"
+                    placeholder="Password"
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    size={25}
+                  />
+                  <br />
+                  <br />
+                  <FormButton onClick={handleLogin} className="sign">
+                    Login
+                  </FormButton>
+                  <br />
+                  <br />
+                  <a class="login" onClick={handleSwitch}>
+                    Not registered? Sign Up
+                  </a>
+                </form>
+                <br />
+                <br />
+              </div>
+            )}
 
-
-              <FormButton onClick={handleGuestClick} className="form-button">
-                  Continue as Guest
-                </FormButton>
+            <FormButton onClick={handleGuestClick} className="form-button">
+              Continue as Guest
+            </FormButton>
           </div>
-        )
-      }
-      <Button onClick={handleToggleClick} className="button">
-        SignUp
-      </Button>
+        )}
+        <Button onClick={handleToggleClick} className="button">
+          SignUp
+        </Button>
       </FormStyled>
     </div>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;
