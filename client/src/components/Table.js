@@ -104,17 +104,31 @@ function Table() {
 
   const [message, setMessage] = useState('');
 
-  function getRandomInt() 
-  {
-    return Math.floor(Math.random() * 3) + 0;
-  }
-
-
   function launchComputerPick() {
     return new Promise((resolve, reject) => {
-      let pick
+      let pick;
+      let index;
+      fetch("http://localhost:8002/play", {
+      method: "GET",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("data in fetch : ", data);
+        index = data;
+      });
+
+      console.log("fetch complete", index);
       const interval = setInterval(() => {
-        pick = elements[getRandomInt()]
+        pick = elements[index]
+        console.log(pick, "  pick")
         setComputerPick(pick)
       }, 50)
       setTimeout(() => {
@@ -128,7 +142,7 @@ function Table() {
   async function onClick(name) {
     setPlaying(true)
     setPick(name)
-    const computer = await launchComputerPick()
+    const computer = await launchComputerPick(name)
 
     const results = playResults(name, computer)
     setResults(results)

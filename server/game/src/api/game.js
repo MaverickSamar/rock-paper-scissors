@@ -1,10 +1,13 @@
 module.exports = (app, channel) => {
 
-    app.use('/', async(req,res,next) => {
+    app.get('/play', async(req, res, next) => {
 
-        console.log("Hello from game");
-        return res.status(200).json({"msg": "Hello from Game"})
+        const index = Math.floor(Math.random() * 3);
+
+        res.status(200).json(index);
     })
+
+
 
     // app.post('/game', async (req,res,next) => {
     //     const { username, password } = req.body;
