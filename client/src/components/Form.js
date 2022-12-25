@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FormButton } from "./Button";
 import Button from "./Button";
+import Profile from "./Profile";
 
 const FormStyled = styled.div`
   text-align: center;
@@ -95,15 +96,18 @@ const Form = () => {
   const [username, setUsername] = useState("");
 
   const [visible, setVisible] = useState(true);
-  const [usernameVisible, setUsernameVisible] = useState(false);
+  const [isLoggedIn, setisLoggedIn] = useState(false);
   const [loginVisible, setLoginVisible] = useState(false);
+
+  const [greeting, setGreeting] = useState(false);
+
 
   function handleToggleClick() {
     setVisible(!visible);
   }
 
   function handleGuestClick() {
-    setUsernameVisible(!usernameVisible);
+    setisLoggedIn(!isLoggedIn);
     setVisible(!visible);
     setUsername("Guest");
     console.log(username);
@@ -130,14 +134,15 @@ const Form = () => {
         console.log(data, "User Registered");
       });
     setVisible(!visible);
+    setisLoggedIn(!isLoggedIn);
   }
 
   function handleSwitch() {
     setLoginVisible(!loginVisible);
   }
 
-  function handleLogin() {
-    
+  function handleLogin(e) {
+    e.preventDefault();
     console.log("Function entered");
     fetch("http://localhost:8001/login", {
       method: "POST",
@@ -154,10 +159,10 @@ const Form = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setUsername(data.username);
         console.log(data, "User logged in");
       });
     setVisible(!visible);
+    setisLoggedIn(!isLoggedIn);
   }
 
   return (
@@ -248,9 +253,16 @@ const Form = () => {
             </FormButton>
           </div>
         )}
-        <Button onClick={handleToggleClick} className="button">
-          SignUp
-        </Button>
+        <div>
+          {(!isLoggedIn) ? (
+          <Button onClick={handleToggleClick} className="button">
+            SignUp
+          </Button>
+          ):(
+            <Profile username={username} isLoggedIn={isLoggedIn} visibleT={visible}/>
+          )}
+        </div>
+
       </FormStyled>
     </div>
   );
