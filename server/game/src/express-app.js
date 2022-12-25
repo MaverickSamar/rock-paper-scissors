@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
-const { game } = require("./api");
+const game = require("./api/game");
 //const { game, gameEvents } = require("./api");
 
 const { CreateChannel } = require("./utils");

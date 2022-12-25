@@ -113,10 +113,10 @@ const Form = () => {
     console.log(username);
   }
 
-  function handleSignUp(e) {
+  async function handleSignUp(e) {
     e.preventDefault();
 
-    fetch("http://localhost:8001/register", {
+    await fetch("http://localhost:8001/register", {
       method: "POST",
       crossDomain: true,
       headers: {

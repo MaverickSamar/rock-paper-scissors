@@ -111,6 +111,7 @@ const Profile = ({username, isLoggedIn, visibleT}) => {
     console.log(u);
     console.log(isLoggedIn, "login");
     console.log(visible, "visible");
+    setVisible(!visible);
 
   }
 

@@ -104,64 +104,60 @@ function Table() {
 
   const [message, setMessage] = useState('');
 
+
+  const [index, setIndex] = useState(0);
+
+  async function getIndex()
+  {
+    await fetch("http://localhost:8002/play").then((res) => res.json()).then((data) => {
+        // console.log(body);
+        // console.log(body.ind);
+        console.log(data);
+        // console.log(data.ind);
+        // setIndex(data);
+    });
+  }
+  
   function launchComputerPick() {
     return new Promise((resolve, reject) => {
       let pick;
-      let index;
-      fetch("http://localhost:8002/play", {
-      method: "GET",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("data in fetch : ", data);
-        index = data;
-      });
-
-      console.log("fetch complete", index);
+      setIndex(getIndex());
+      console.log(index, "Index");
       const interval = setInterval(() => {
         pick = elements[index]
         console.log(pick, "  pick")
         setComputerPick(pick)
-      }, 50)
+      }, 75)
       setTimeout(() => {
         clearInterval(interval)
         resolve(pick)
-      }, 500)
+      }, 1000)
     })
   }
 
-
-  async function onClick(name) {
+  async function onClick(name) 
+  {
     setPlaying(true)
     setPick(name)
     const computer = await launchComputerPick(name)
 
     const results = playResults(name, computer)
     setResults(results)
-    if (results === 'win') {
+    if (results === 'win') 
+    {
       setScore(score + 1)
       const m = "Hurray! Try Again";
       setMessage(m)
     }
-    else{
-        if(score > 0)
-        {
-            setScore(score-1);
-        }
+    else
+    {
         const m = "Oops! Try Again"
         setMessage(m);
     }
     console.log(message);
     console.log(score);
   }
+
   function playResults(pick, computerPick) {
     if (computerPick === pick) {
       return 'draw'
